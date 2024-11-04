@@ -2,5 +2,8 @@ import sql from "better-sqlite3";
 const db = sql("meals.db");
 
 export async function getMeals() {
-  return db.prepare("SELECT * FROM meals").all(); // .get returns signle row
+  await new Promise((resolve, reject) => setTimeout(resolve, 5000));
+  // .get returns sngle row
+  //.run inserts into the database
+  return db.prepare("SELECT * FROM meals").all();
 }
