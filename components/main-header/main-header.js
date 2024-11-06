@@ -20,22 +20,22 @@ function MainHeader() {
         <ul>
           <li>
             <Link
-              href="/community"
-              className={
-                pathName.startsWith("/community") ? classes.active : undefined
-              }
-            >
-              Community
-            </Link>
-          </li>
-          <li>
-            <Link
               href="/meals"
               className={
                 pathName.startsWith("/meals") ? classes.active : undefined
               }
             >
               Meals
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/community"
+              className={
+                pathName.startsWith("/community") ? classes.active : undefined
+              }
+            >
+              Community
             </Link>
           </li>
         </ul>

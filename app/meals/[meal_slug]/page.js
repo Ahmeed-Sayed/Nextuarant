@@ -4,6 +4,17 @@ import { getMealBySlug } from "@/utils/meals"; // Import the function to get a m
 import classes from "./page.module.css"; // Import the CSS module
 import Image from "next/image";
 
+export async function generateMetadata({ params }) {
+  const meal = await getMealBySlug(params.meal_slug);
+  if (!meal) {
+    notFound();
+  }
+  return {
+    title: meal.title,
+    description: meal.summary,
+  };
+}
+
 const MealPage = async ({ params }) => {
   const meal = await getMealBySlug(params.meal_slug); // Fetch the meal by slug
   if (!meal) {
@@ -25,8 +36,8 @@ const MealPage = async ({ params }) => {
         </div>
       </header>
       <main>
-      <div className={classes.instructions}>
-          {meal.instructions.split('\n').map((instruction, index) => (
+        <div className={classes.instructions}>
+          {meal.instructions.split("\n").map((instruction, index) => (
             <p key={index}>{instruction}</p>
           ))}
         </div>
