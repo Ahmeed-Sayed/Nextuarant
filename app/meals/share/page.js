@@ -50,6 +50,10 @@ export default function ShareMealPage() {
             <FormSubmitButton />
           </p>
         </form>
+        <p style={{marginTop:"2rem"}}>
+        Please note that a default image will be attached to your new meal
+        information rather than the added image
+      </p>
       </main>
     </>
   );

@@ -5,13 +5,13 @@ import { addMeal } from "./meals";
 import { revalidatePath } from "next/cache";
 
 const validateForm = (data) => {
-  const email = data.get("creator_email");
+  const email = data.get("email");
   if (
     !data.get("title") ||
     !data.get("image") ||
     !data.get("summary") ||
     !data.get("instructions") ||
-    !data.get("creator") ||
+    !data.get("name") ||
     !email
   ) {
     return { message: "All fields are required." };
@@ -36,10 +36,14 @@ export async function handleSubmit(prevState, formData) {
     creator_email: formData.get("email"),
   };
   const result = validateForm(formData);
-  if (result.message) {
+  if (result && result.message) {
     return result;
   }
-  await addMeal(meal);
+  try {
+    await addMeal(meal);
+  } catch (e) {
+    return { message: `An error occurred while adding the meal. ${e}` };
+  }
   revalidatePath("/meals", "layout");
   redirect("/meals");
 }

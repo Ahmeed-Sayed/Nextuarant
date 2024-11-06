@@ -48,7 +48,7 @@ function ImagePicker({ name }) {
         >
           Pick Your Image
         </button>
-      </div>
+      </div>     
     </main>
   );
 }
