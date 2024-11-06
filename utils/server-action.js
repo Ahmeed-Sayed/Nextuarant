@@ -2,8 +2,26 @@
 
 import { redirect } from "next/navigation";
 import { addMeal } from "./meals";
+import { revalidatePath } from "next/cache";
 
-export async function handleSubmit(formData) {
+const validateForm = (data) => {
+  const email = data.get("creator_email");
+  if (
+    !data.get("title") ||
+    !data.get("image") ||
+    !data.get("summary") ||
+    !data.get("instructions") ||
+    !data.get("creator") ||
+    !email
+  ) {
+    return { message: "All fields are required." };
+  }
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email)) {
+    return { message: "Invalid email format." };
+  }
+};
+export async function handleSubmit(prevState, formData) {
   "use server";
   const meal = {
     title: formData.get("title"),
@@ -17,6 +35,11 @@ export async function handleSubmit(formData) {
     creator: formData.get("name"),
     creator_email: formData.get("email"),
   };
+  const result = validateForm(formData);
+  if (result.message) {
+    return result;
+  }
   await addMeal(meal);
-  redirect('/meals')
+  revalidatePath("/meals", "layout");
+  redirect("/meals");
 }
